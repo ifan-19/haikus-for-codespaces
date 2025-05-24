@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio Saya</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background: #f9f9f9;
+      color: #222;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: #004a99;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    nav {
+      background: #003366;
+      display: flex;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      padding: 15px 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    nav a:hover,
+    nav a.active {
+      background: #001f4d;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    h1, h2 {
+      margin-bottom: 15px;
+    }
+    p {
+      line-height: 1.6;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    input, textarea {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    button {
+      background: #004a99;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #003366;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #004a99;
+      color: white;
+      margin-top: 50px;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+      nav a {
+        padding: 12px;
+        border-top: 1px solid #002244;
+      }
+      main {
+        margin: 20px 10px;
+        padding: 20px;
+      }
+      form {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Halo, saya [Nama Kamu]</h1>
+    <p>Selamat datang di portfolio saya!</p>
+  </header>
+  <nav>
+    <a href="#beranda" class="active">Beranda</a>
+    <a href="#tentang">Tentang Saya</a>
+    <a href="#kontak">Kontak</a>
+  </nav>
+  <main>
+    <section id="beranda">
+      <h2>Beranda</h2>
+      <p>Ini adalah halaman beranda sederhana untuk memperkenalkan diri saya secara singkat.</p>
+    </section>
+    <section id="tentang">
+      <h2>Tentang Saya</h2>
+      <p>Saya seorang pengembang web yang suka membuat aplikasi dan website yang menarik dan fungsional.  
+         Saya juga senang belajar teknologi baru dan terus mengembangkan kemampuan saya di bidang coding.</p>
+    </section>
+    <section id="kontak">
+      <h2>Kontak</h2>
+      <form id="contactForm" novalidate>
+        <label for="name">Nama</label>
+        <input type="text" id="name" name="name" placeholder="Masukkan nama kamu" required />
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Masukkan email kamu" required />
+        
+        <label for="message">Pesan</label>
+        <textarea id="message" name="message" rows="5" placeholder="Tulis pesan kamu" required></textarea>
+        
+        <button type="submit">Kirim</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 Portfolio Saya</p>
+  </footer>
+  
+  <script>
+    // Highlight nav link on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+    
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 60;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Form validation and submit
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      
+      if (!name) {
+        alert('Nama harus diisi!');
+        form.name.focus();
+        return;
+      }
+      if (!email) {
+        alert('Email harus diisi!');
+        form.email.focus();
+        return;
+      }
+      if (!validateEmail(email)) {
+        alert('Email tidak valid!');
+        form.email.focus();
+        return;
+      }
+      if (!message) {
+        alert('Pesan harus diisi!');
+        form.message.focus();
+        return;
+      }
+      alert('Terima kasih sudah menghubungi saya, ' + name + '!');
+      form.reset();
+    });
+
+    function validateEmail(email) {
+      // Simple email regex
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+  </script>
+</body>
+</html>
